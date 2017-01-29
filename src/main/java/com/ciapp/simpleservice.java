@@ -1,5 +1,8 @@
 package com.ciapp;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -14,6 +17,7 @@ public class simpleservice {
 		Options options = new Options();
 		options.addOption("n", true, "[name] your name");
 		Option timeOption = new Option("t", false, "current time");
+		options.addOption("h", false, "find hostname");
 		options.addOption(timeOption);
 		CommandLineParser parser = new BasicParser();
 		CommandLine cmd;
@@ -32,9 +36,19 @@ public class simpleservice {
 
 			System.err.println("Date/Time: " + new java.util.Date());
 		}
+		if (cmd.hasOption("h")) {
+			try {
+				System.out.println("Hostname is: "+InetAddress.getLocalHost().getHostName());
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 		if (cmd.hasOption("n")) {
 			System.err.println("Nice to meet you: " + cmd.getOptionValue('n'));
 		}
+		
 	}
 
 	private static void usage(Options options) {
